@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int t[5001][5001];
+
+int lcs(int n,int m,string &s1,string &s2){
+    if(n<=0 || m<=0) return 0;
+    if(t[n][m]!=-1) return t[n][m];
+    if(s1[n-1]==s2[m-1]){
+        return t[n][m]=1+lcs(n-1,m-1,s1,s2);
+    }
+    return t[n][m]=max(lcs(n-1,m,s1,s2),lcs(n,m-1,s1,s2));
+}
+
+int main() {
+    int test;
+    cin>>test;
+    while(test--){
+        int n,m;
+        cin>>n>>m;
+        string s1,s2;
+        cin>>s1;
+        cin>>s2;
+        memset(t,-1,sizeof(t));
+        string s3="",s4="";
+        for(int i=0;i<n-1;i++){
+            if(s1[i]!=s1[i+1]) s3+=s1[i];
+        }
+        s3+=s1[n-1];
+        for(int i=0;i<m-1;i++){
+            if(s2[i]!=s2[i+1]) s4+=s2[i];
+        }
+        s4+=s2[m-1];
+        int u=s3.size();
+        int v=s4.size();
+        int x=lcs(u,v,s3,s4);
+        // cout<<x<<endl;
+       int ans=u+v-x;
+        cout<<ans<<endl;
+    }
+    return 0;
+}
